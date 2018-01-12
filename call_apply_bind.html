@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>改变this的指向</title>
+</head>
+<body>
+<script type="application/javascript">
+    var obj1={
+        name:'jack',
+        age:20
+    }
+    var obj2={
+        name:'tom',
+        age:21
+    }
+    function getName(){
+        console.log(this.name);
+    }
+    getName();//window
+    getName.call(obj1);//改变this的指向
+    getName.apply(obj2);
+
+
+
+
+    //call apply的区别
+    var stu1={
+        name:'Jack',
+        age:18,
+        say:function(school,grade){
+            console.log(this.name+'今年 '+school+'年级'+grade);
+        }
+    }
+    var stu2={
+        name:'Tom'
+    }
+    stu1.say.call(stu2,'清华','四');//单个的参数传入
+    stu1.say.apply(stu2,['北大','三']);//以数组的形式传入
+
+    //例子：用于继承函数对象的属性
+    function Person(){
+        this.name='Jack';
+        this.likeMusic=true;
+    }
+    function Son(){
+        Person.call(this);//让Person中的this指向son
+        this.likeFood='apple';
+    }
+    var p=new Person();
+    var s=new Son();
+
+
+
+
+    //========this的丢失   bind========
+    var name='Tom';
+    var obj={
+        name:'Jack',
+        getName:function(){
+            console.log(this.name);
+        }
+    }
+    obj.getName();//Jack obj
+    var fn=obj.getName;
+    fn();//Tom  window
+
+    var fn1=obj.getName.bind(obj);//把this的指向绑定给obj
+    fn1();//Jack
+    //类似于
+    obj.getName.call(obj);//Jack
+
+    //实现bind函数====>bindNew
+    Function.prototype.bindNew=function(){
+//        console.log(this);    function(){console.log(this.name);}
+        var self=this;//如果不保留这个this,那么在fn2()调用的时候这个this指向的就是window
+//        console.log(self);
+        return function(){
+            self.apply(obj,arguments);
+        }
+    }
+    var fn2=obj.getName.bindNew(obj);
+    fn2();//Jack
+
+
+
+    /*
+    *
+    * js的function中call apply bind方法
+     1.apply() 方法调用一个函数, 其具有一个指定的this值，以及作为一个数组（或类似数组的对象）提供的参数。
+     apply:方法能劫持另外一个对象的方法，继承另外一个对象的属性.
+     Function.apply(obj,args)方法能接收两个参数
+     obj：这个对象将代替Function类里this对象
+     args：这个是数组，它将作为参数传给Function（args-->arguments）
+
+     call:和apply的意思一样,只不过是参数列表不一样.
+     var a = {
+     user:"追梦子",
+     fn:function(c){
+     console.log(this.user); //追梦子
+     console.log(c)
+     }
+     }
+     var b = {
+     user:'Jack'
+     };
+     a.fn.call(b,2);
+     //b.fn();
+
+     var box=document.getElementById('box');
+     box.onclick=function(){
+     var fn=function(){
+     console.log(this);
+     }.call(this);
+     }
+    * */
+</script>
+</body>
+</html>

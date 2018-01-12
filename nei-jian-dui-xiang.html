@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>JS的内建对象</title>
+</head>
+<body>
+
+</body>
+<script type="application/javascript">
+    /*
+        Javascript对象：
+            1.String 字符串对象
+            2.Number  数字对象
+            3.Array 数组对象
+            4.Math  数学对象
+            5.Date  日期对象
+
+            6.Function 函数对象
+
+          注意：DOM对象是操作文档的，BOM对象操作浏览器窗口
+
+        面向对象：
+          1.封装(快递打包)-->复用
+            抽象封装出独立个体(对象：有属性和方法)协作演化世界
+          2.继承(父子)-->减少代码  复用
+          3.多态(不同类型)
+    * */
+    //定义函数对象的属性
+        function Car(name,price){//构造函数
+            this.name=name;
+            this.price=price;
+            this.date='2017'
+        }
+    //定义函数的方法
+    Car.prototype.move=function(){
+        console.log(this.name+'移动');
+    }
+    //创建一个对象--new
+    var obj1=new Car('别克',1000);//创建一个新的对象
+    var obj2=new Car('BMW',10000);//再创建一个对象(分配一个新的实例空间)
+    delete (obj1.name);//删除属性
+</script>
+</html>

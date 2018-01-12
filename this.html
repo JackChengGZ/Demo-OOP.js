@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        .container{
+            width: 1030px;
+            height: 120px;
+            border: 1px solid #000;
+            display: flex;
+            /*justify-content: space-between;*/
+            justify-content: space-around;
+            align-items: flex-end;
+            /*align-items: stretch;*/
+        }
+        .box{
+            width: 200px;
+            height: 100px;
+            border: 1px solid #000;
+            /*margin-left: 5px;*/
+        }
+        .circle{
+            float: left;
+            width: 250px;
+            height: 500px;
+            border-radius: 0 250px 250px 0;
+            border-right:2px solid #000;
+            background:#000;
+        }
+        .circle2{
+            float: left;
+            width: 250px;
+            height: 500px;
+            border-radius: 250px 0 0 250px;
+            border:1px solid #000;
+        }
+        #my{
+            border: 1px solid #000;
+            width: 200px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <!--<div class="container">-->
+        <!--<div class="box">-->
+
+        <!--</div>-->
+        <!--<div class="box">-->
+
+        <!--</div>-->
+        <!--<div class="box">-->
+
+        <!--</div>-->
+        <!--<div class="box">-->
+
+        <!--</div>-->
+        <!--<div class="box">-->
+
+        <!--</div>-->
+    <!--</div>-->
+
+<!--<div>-->
+    <!--<div class="circle2">-->
+
+    <!--</div>-->
+    <!--<div class="circle">-->
+
+    <!--</div>-->
+<!--</div>-->
+
+<div id="my"></div>
+</body>
+<script type="application/javascript">
+    /*
+    * this用法
+    * 1.指代当前调用的这个对象
+    *
+    * */
+    var man={
+        name:'Jack',
+        age:30,
+        getName:function(){
+            console.log(this.name);
+        },
+        getAge:function(){
+            function aa(){//局部函数
+                console.log(this+' '+this.age);//局部函数this指向window
+            }
+            aa();//window.aa()
+            console.log(this+' '+this.age);
+        }
+    }
+    man.getName();
+    man.getAge();
+
+
+
+
+
+
+
+
+//    var odiv=document.getElementById('my');
+//    function sport(ele,targetJSON,time){
+//        //动画间隔时间
+//        var interval = 5;
+//        var semaphoreJSON ={};		//最初始的值  信号量
+//        var maxcount;
+//        var stepJSON = {};
+//        for (var k in targetJSON) {
+////					semaphoreJSON[k] = targetJSON[k];
+//            semaphoreJSON[k]= parseInt(fetchComputedStyle(ele,k));		//获取到div的宽和高
+//            console.log('css初始高度值  ：'+semaphoreJSON[k]);
+//        }
+//        console.log(semaphoreJSON);
+//        maxcount = time / interval;
+//        for(var k in targetJSON){l
+//            stepJSON[k] = (targetJSON[k] - semaphoreJSON[k]) / maxcount;
+//            console.log('最大速率：'+stepJSON[k]);
+//            console.log('js初始的高度值  ：'+targetJSON[k]);
+//        }
+//        console.log(stepJSON);
+//    }
+//    function fetchComputedStyle(obj,property){
+//        if(window.getComputedStyle){
+//            property = property.replace(/[A-Z]/g,function(match,$1){
+//                return "-" + $1.toLowerCase();
+//            })
+//            return window.getComputedStyle(obj)[property];
+//        }else{
+//            property = property.replace(/\-[a-z]/g,function(match,$1){
+//                return $1.toUpperCase();
+//            })
+//            return obj.currentStyle[property];
+//        }
+//    }
+//    sport(odiv,{width:300, height:600},800);
+
+
+//    var a=3;
+//    function fun1(){
+//        var a=1;
+//        function fun2(){
+//            alert(a);
+//        }
+//        fun2()
+//    }
+//    fun1()//1
+</script>
+</html>

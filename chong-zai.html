@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+</body>
+<script type="application/javascript">
+    function Add(){
+        //没有参数的算法
+        function zero(){
+            return 10;
+        }
+        //一个参数的算法
+        function one(num){
+            return 10+num
+        }
+        //两个参数的算法、
+        function two(num1,num2){
+            return num1+num2;
+        }
+        this.add=function(){
+            var arg=arguments;
+            var len=arg.length;
+            switch (len){
+                //没有参数
+                case 0:
+                    return zero();
+                //一个参数
+                case 1:
+                    return one(arg[0]);
+                //两个参数
+                case 2:
+                    return two(arg[0],arg[1]);
+            }
+        }
+    }
+    //实例化类
+    var A=new Add();
+    //测试
+    console.log(A.add());//10
+    console.log(A.add(5));//15
+    console.log(A.add(6,6));//12
+</script>
+</html>

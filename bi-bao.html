@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>闭包</title>
+</head>
+<body>
+
+</body>
+<script type="application/javascript">
+    /*
+    *   闭包
+    *   理解：如果要研究的深，例如一些Jquery库
+    *       通过引用访问函数内部的函数，实现信息的驻留(信息的保持，引用在，空间不销毁)
+    *
+    *   内存资源回收
+    *      只要存在调用内部函数的可能，JavaScript就需要保留被引用的函数。而且Javascript运行时需要跟踪引用这个内部函数的所有变量，直到最后一个变量废弃，Javascript的垃圾收集器才能释放相应的内存空间
+    *
+    *   快照-->新的备份
+    *       存档此时函数作用域内的现场信息(包括局部变量，参数，函数等)-->创建新的实力
+    *
+    *    应用：1.链式调用；典型的Jquery
+    *
+    *
+    * */
+    //一个简单的闭包
+        var Person=function(){
+            var count=0;//私有的变量
+            return function getCount(){
+                console.log(count++);
+            }
+        }
+        var p=Person();
+        p();//1  由于信息的驻留
+        p();//2
+        p();//3
+
+        Person()();//0
+        Person()();//0
+        Person()();//0
+
+    //链式调用
+        var name='Jack';
+    (function(){//匿名函数自执行(函数内是独立的名字空间，避免和外面的名字冲突)
+        var name='Tom';
+        alert('local: '+name);//Tom
+        jQuery=function(){
+            return {
+                getName:function(){
+                            return name;
+                        },
+                setName:function(val){
+                            name=val;
+                            return this;//返回对象本身-->链式调用
+                        }
+            }
+
+        }
+        window.$=jQuery;//暴露对外的接口
+
+    })();
+    //这里说一下匿名函数，其实就相当于 function fn(){}  然后通过fn()去调用他；无非是简写成了(function(){})();
+    alert('global :  '+name); //Jack
+    alert($().getName());//Tom
+    alert($().setName('Marry').getName());//链式调用   $().setName('Marry')这个其实就是return this;//返回对象本身$-->链式调用  //Marry
+
+
+
+    //一个典型的面试题
+    var buttons=[{name:'b1'},{name:'b2'},{name:'b3'}];
+    function bind(){
+        for(var i=0;i<buttons[i].length;i++){
+            buttons[i].onclick=function(){
+                alert(i);
+            }
+        }
+    }
+    bind();
+    buttons[0].onclick();
+    buttons[1].onclick();
+    buttons[2].onclick();
+    //怎么解决上面的这个问题
+    (function(num){
+        buttons[i].onclick=function(){
+            alert(num);
+        }
+    })(i);//这个是把i当做局部变量传入给num，保存了当前这个局部变量形成闭包
+
+
+    //另一个典型的闭包面试题
+    function fun(n,o){
+        console.log(o);
+        return {
+            fun:function(m){
+                return fun(m,n);//这个会向上找到fn(n,o)
+            }
+        };
+    }
+    var a=fun(0);//u   其实在这里a已经被赋值为一个对象{fun:function(m){return fun(m,n);//这个会向上找到fn(n,o)}
+    a.fun(1);//0
+    a.fun(2);//0
+    a.fun(3);//0
+
+    var b=fun(0).fun(1).fun(2).fun(3);//u 0 1 2
+    var c=fun(0).fun(1);//u 0
+    c.fun(2);// 1
+    c.fun(3);//1
+
+
+</script>
+</html>

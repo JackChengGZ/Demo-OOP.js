@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>面向对象</title>
+</head>
+<body>
+
+
+</body>
+<script type="application/javascript">
+    /*
+    *面向对象(可以说是初级和中级的一个分水岭)
+    * 1.类-浏览器给的一个分类
+    * 2.原型-类的方法prototype
+    * 3.原型链-继承
+    *
+    * typeof js判断数据类型
+    * function string number boolean object undefined *null symbol(这个是ES6)
+    *
+    * 万物皆是对象
+    *
+    * 字面量——字面上显示的东西  var str='fdj'; var num=1;
+    * 包装类——没有new的函数声明，可以理解为不是对象 ;String Number
+    *
+    * 1.什么是对象
+    *  具备私有属性
+    *  只要是new出来的都是对象
+    *  不同对象肯定不相等 var a=[1];var b=[1];  a==b  =>false
+    *  对象都会有引用机制  堆 栈  如果不想引用，就直接赋值
+    *
+    *  内存机制
+    *  -回收机制
+    *       js自己会去回收不在使用的变量，但是c需要手动;如果自己删，可以用null delete(只可以删除对象的属性)
+    *  ——生命周期
+    *
+    *面向对象——最有用的就是私有属性
+    * this:普通函数下就是window
+    *
+    *
+    * 浏览器 - object -undefined         这些都是浏览器中的类
+    *                -boolean
+    *                -string(String)  -他的方法--String.prototype-slice           String.prototype.slice=null;   类的prototype上都是方法
+    *                                                           -substring
+    *                                                           -split......
+    *
+    *                -number(Number)
+    *                -...
+    *                -自定义一个类  Person
+    *               如果Object.prototype.a=5;那么在number array string 等类上面也会有一个a.因为他们都继承自Object
+    * 继承——子类继承父类的
+    *
+    *        window是绝对的，是永痕的
+    * */
+//    第一个
+//    var json=new Object();
+//        json.a=2;
+//    var json2={a:20};//其实这是一个缩写
+//    console.log(json);
+//    console.log(json2);
+//    var num=1;
+//    var num=new Number(1);
+//    var arr=[13,2,3];
+//    var arr=new Array(12,3,3);
+//    var str='hdj';
+//    var str=new String('fjdk');
+
+
+    //面试题
+    function Foo(){
+         getName=function(){alert(1);}
+        return this;
+    }
+    var getName=function(){alert(4)}
+    Foo().getName();//1 这个主要是执行的先后顺序
+
+
+    var getNun=function(){
+        alert(4);
+    }
+    function getNun(){
+        alert(5);
+    }
+    getNun();//4  声明提升
+
+
+
+    function foo(){
+        foo.a=function(){alert(1);}
+        this.a=function(){alert(2);}
+//        a=function(){alert(3);}
+//        var a=function(){alert(4);}
+    }
+    foo.prototype.a=function(){alert(5);}
+    foo.a=function(){alert(6)};
+    foo.a();//6  foo没有被实例化new
+    var obj=new foo();//foo被实例化new
+    obj.a();//2
+    foo.a();//1 foo被实例化new
+
+
+    var name='lili';
+    var obj={
+        name:'liming',
+        prop:{
+            name:'Jack',
+            getName:function(){
+                return this.name
+            }
+        }
+    }
+    console.log(obj.prop.getName());//Jack
+//    var test=obj.prop.getName();
+//    console.log(test);//lili  主要是this的丢失
+    var test=obj.prop.getName.bind(obj.prop);
+    console.log(test);//Jack
+
+
+    /*   js的数据类型：原始类型：number string boolean null undefined
+     引用类型：object(其中Function Date Array等都是)   5+1=6
+
+     js的隐士转换：1.+和-:例如将一个num变成一个数字：num-0;把一个数字变成字符串：num+"";
+     2.==和===，NaN
+
+     js的包装对象：var str='string';
+     var str2=new String('string');
+
+     js类型检测：typeof  检测的不是很准确，例如检测一个Array
+     instanceof(基于原型链，唯一不足是必须在统一window下)
+     Object.prototype.toString.apply([])==="[object Array]"   Object.prototype.toString.apply(function(){})==="[object Function]"
+     Object.prototype.toString.apply(null)==="[object Null]"(这个在IE6-8返回是[object Object])
+     Object.prototype.toString.apply(undefined)==="[object Undefined]"
+     constructor(基于原型)
+     duck type
+
+
+
+     js对象：
+     属性：无序的，每个属性都有一个字符串key和对应的value  ；相当于变量,修改对象的属性，不会向原型上查找并且也不会修改原型上的值
+     方法：；相当于函数
+
+     创建对象的方式：
+     1.var obj={};
+     2.var obj=Object.create({x:1}); obj.x=>1
+     对象的属性：Object.hasOwnProperty("a");
+
+     小结：1.对象的结构  2.创建对象 3.属性操作 4.getter setter 5.属性标签 6.对象标签  7.序列化  8.对象方法
+
+
+     js函数
+     定义：函数是一块js代码，被定义一次，但是可以执行和调用多次。js的函数也是对象；
+     this:全局this；
+     call,apply,bind
+
+
+     js闭包：并不是js有闭包，凡是能将一个函数作为一个对象传入的都能有闭包
+     总结：灵活和封装    空间浪费 内存泄露 性能消耗
+
+     小结：了解函数，函数声明，this与调用方式，函数属性与arguments,理解闭包和作用域， 执行上下文
+
+
+     js中OOP
+     概念：面向对象：继承 封装 多态
+
+
+     */
+
+</script>
+</html>
