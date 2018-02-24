@@ -69,7 +69,7 @@
     //一个典型的面试题
     var buttons=[{name:'b1'},{name:'b2'},{name:'b3'}];
     function bind(){
-        for(var i=0;i<buttons[i].length;i++){
+        for(var i=0;i<buttons.length;i++){
             buttons[i].onclick=function(){
                 alert(i);
             }
@@ -80,11 +80,11 @@
     buttons[1].onclick();
     buttons[2].onclick();
     //怎么解决上面的这个问题
-    (function(num){
-        buttons[i].onclick=function(){
-            alert(num);
-        }
-    })(i);//这个是把i当做局部变量传入给num，保存了当前这个局部变量形成闭包
+//    (function(num){
+//        buttons[i].onclick=function(){
+//            alert(num);
+//        }
+//    })(i);//这个是把i当做局部变量传入给num，保存了当前这个局部变量形成闭包
 
 
     //另一个典型的闭包面试题
